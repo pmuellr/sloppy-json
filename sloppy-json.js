@@ -7,6 +7,8 @@ module.exports = {
   stringify
 }
 
+const readline = require('readline')
+
 const { createTokenizer } = require('./lib/tokenizer')
 
 /** @typedef { import('./lib/types').IToken } IToken */
@@ -82,27 +84,16 @@ function stringify (object, ignored, indent) {
 if (require.main === module) main()
 
 function main () {
-  test('null')
-  test('true')
-  test('false')
-  test('1234')
-  test('"foo"')
-  test('{a:b c:d}')
-  test('[1 2 3]')
-}
-
-function test (string) {
-  let value
-
-  console.log('')
-  console.log(`input: ${string}`)
-
-  try {
-    value = parse(string)
-  } catch (err) {
-    console.log(`error: ${err.message}`)
-    return
+  if (process.argv[2] != null) {
+    console.log(JSON.stringify(parse(process.argv[2])))
+    process.exit()
   }
 
-  console.log(`parse: ${JSON.stringify(value)}`)
+  const rl = readline.createInterface({ input: process.stdin })
+  const lines = []
+  rl.on('line', (line) => lines.push(line))
+  rl.on('close', () => {
+    if (lines.length === 0) process.exit()
+    console.log(JSON.stringify(parse(lines.join('\n'))))
+  })
 }
