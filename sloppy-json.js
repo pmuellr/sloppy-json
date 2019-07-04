@@ -44,11 +44,11 @@ function parseObject (tokenizer) {
     if (token.isBraceR) return result
 
     const key = parseValue(tokenizer, token)
-    if (!key.isString) throw new Error(`object property name is not a string: ${key.value}`)
+    if (!(typeof key === 'string')) throw new Error(`object property name is not a string: ${key}`)
 
     token = tokenizer.next()
     if (token == null) throw new Error('unterminated object')
-    if (!token.isColon) throw new Error(`missing colon after property name: ${key.value}`)
+    if (!token.isColon) throw new Error(`missing colon after property name: ${key}`)
 
     token = tokenizer.next()
     if (token == null) throw new Error('unterminated object')
@@ -78,16 +78,17 @@ function stringify (object, ignored, indent) {
   throw new Error('not yet implemented')
 }
 
+// @ts-ignore urggghh ... this is so wrong!
 if (require.main === module) main()
 
 function main () {
-  test('[1 2 3]')
-  test('{a:b c:d}')
   test('null')
   test('true')
   test('false')
   test('1234')
   test('"foo"')
+  test('{a:b c:d}')
+  test('[1 2 3]')
 }
 
 function test (string) {

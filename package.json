@@ -11,6 +11,7 @@
     "build": "echo npm run build: TBD",
     "deps-check": "node tools/deps-check.js",
     "ts-check": "echo 'running ts-check'; tsc --allowJs --checkJs --noEmit --target ES5 --resolveJsonModule *.js",
+    "ts-check-skip": "echo 'skipping ts-check for the moment'",
     "ncu": "ncu -u --packageFile package.json",
     "serve": "serve",
     "standard": "echo 'running standard'; standard --verbose",
