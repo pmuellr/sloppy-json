@@ -1,6 +1,6 @@
 'use strict'
 
-/* global test, expect */
+/* global test */
 
 const fs = require('fs')
 const path = require('path')
@@ -11,33 +11,21 @@ const path = require('path')
 
 const { parse } = require('../sloppy-json')
 
-test.skip('JSONTestSuite y- tests', () => {
+test('JSONTestSuite y- tests', () => {
   const jsonTestSuiteDir = path.resolve(__dirname, '..', '..', 'JSONTestSuite', 'test_parsing')
 
   try {
     var entries = fs.readdirSync(jsonTestSuiteDir)
   } catch (err) {
     console.log(`JSONTestSuite not found and so these tests are ignored`)
+    return
   }
 
   entries = entries.filter(entry => entry.startsWith('y_'))
 
-  let failed = 0
   for (const entry of entries) {
     const testJSON = fs.readFileSync(path.resolve(jsonTestSuiteDir, entry), 'utf8')
 
-    let parsed
-    try {
-      parsed = JSON.stringify(parse(testJSON))
-    } catch (err) {
-      parsed = `error: ${err.message}`
-      failed++
-    }
-
-    console.log('test:  ', testJSON)
-    console.log('result:', parsed)
-    console.log('')
+    JSON.stringify(parse(testJSON))
   }
-
-  expect(failed).toBe(0)
 })

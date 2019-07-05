@@ -8,6 +8,8 @@ const { choose, chooseEqually, randomInteger } = require('./random')
 
 const MAX_DEPTH = 3
 
+/** return a randomly generated object */
+/** @param {number} [depth] - maximal depth of objects / arrays */
 function create (depth = 0) {
   const creator = choose([
     [ 1, createNull ],
@@ -21,15 +23,18 @@ function create (depth = 0) {
   return creator(depth)
 }
 
+/** @returns {null} */
 function createNull () {
   return null
 }
 
+/** @returns {boolean} */
 function createBoolean () {
   const value = chooseEqually(true, false)
   return value
 }
 
+/** @returns {number} */
 function createNumber () {
   const buffer = []
 
@@ -60,6 +65,7 @@ function createNumber () {
   return value
 }
 
+/** returns a string */
 function createString () {
   const buffer = []
   const length = chooseEqually(0, 1, 2, 3)
@@ -71,6 +77,7 @@ function createString () {
   return buffer.join('')
 }
 
+/** @param {number} [depth] - maximal depth of the object */
 function createObject (depth) {
   const result = {}
 
@@ -86,6 +93,7 @@ function createObject (depth) {
   return result
 }
 
+/** @param {number} [depth] - maximal depth of the array */
 function createArray (depth) {
   const result = []
 
@@ -100,9 +108,12 @@ function createArray (depth) {
   return result
 }
 
+/** @param {n} [depth] - exclusive maximum of number to return */
+/** @returns {number} */
 function generateInteger (n = 1000) {
   return randomInteger(n) // 0..n-1
 }
+
 const STRING_CHARS_CHOICE = [
   [ 10, 'x' ],
   [ 10, 'X' ],

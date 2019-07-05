@@ -7,6 +7,9 @@
   "author": "Patrick Mueller <pmuellr@apache.org> (https://github.com/pmuellr)",
   "homepage": "https://github.com/pmuellr/sloppy-json",
   "main": "sloppy-json.js",
+  "bin": {
+    "sloppy-json": "./lib/cli.js"
+  },
   "scripts": {
     "build": "echo npm run build: TBD",
     "deps-check": "node tools/deps-check.js",
