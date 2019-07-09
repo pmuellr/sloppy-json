@@ -6,7 +6,7 @@ const random = require('./lib/random')
 const randomValues = require('./lib/random-values')
 const randomSloppyStrings = require('./lib/random-sloppy-strings')
 
-const { parse } = require('../sloppy-json')
+const { parse, stringify } = require('../sloppy-json')
 
 const seed = process.env.RANDO_SEED || new Date().toISOString()
 random.setRandoSeed(seed)
@@ -16,16 +16,43 @@ test('parsing random values', () => {
   const COUNT = 20000
 
   for (let i = 0; i < COUNT; i++) {
+    let jsonL
+    let jsonS
+    let objectL
+    let objectS
+
     const object = randomValues.create()
-    const jsonLong = JSON.stringify(object, null, 4)
-    const jsonShort = JSON.stringify(object)
-    // console.log('testing json:', jsonShort)
 
-    const sObjectLong = parse(jsonLong)
-    const sObjectShort = parse(jsonShort)
+    jsonL = JSON.stringify(object, null, 4)
+    jsonS = JSON.stringify(object)
 
-    expect(sObjectLong).toEqual(object)
-    expect(sObjectShort).toEqual(object)
+    objectL = parse(jsonL)
+    objectS = parse(jsonS)
+
+    expect(objectL).toEqual(object)
+    expect(objectS).toEqual(object)
+
+    jsonL = stringify(object, null, 4)
+    jsonS = stringify(object)
+
+    try {
+      objectL = parse(jsonL)
+    } catch (err) {
+      console.log(`error parsing: ${jsonL}`)
+      console.log(err.message)
+    }
+
+    try {
+      objectS = parse(jsonS)
+    } catch (err) {
+      console.log(`error parsing: ${jsonS}`)
+      console.log(err.message)
+    }
+
+    objectS = parse(jsonS)
+
+    expect(objectL).toEqual(object)
+    expect(objectS).toEqual(object)
   }
 })
 

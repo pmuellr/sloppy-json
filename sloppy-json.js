@@ -10,6 +10,7 @@ module.exports = {
 const readline = require('readline')
 
 const { createTokenizer } = require('./lib/tokenizer')
+const Stringify = require('./lib/stringify')
 
 /** @typedef { import('./lib/types').IToken } IToken */
 /** @typedef { import('./lib/types').ITokenizer } ITokenizer */
@@ -21,6 +22,12 @@ function parse (string) {
   if (token == null) throw new Error('no value found in string')
 
   return parseValue(tokenizer, token)
+}
+
+/** @type {(object: any, ignored: any, indent: number | string) => string} */
+function stringify (object, ignored, indent) {
+  if (indent == null) indent = 0
+  return Stringify(object, ignored, indent)
 }
 
 /** @type {(tokenizer: ITokenizer, token: IToken) => any} */
@@ -73,11 +80,6 @@ function parseArray (tokenizer) {
     const value = parseValue(tokenizer, token)
     result.push(value)
   }
-}
-
-/** @type {(object: object, ignored: any, indent: number) => string} */
-function stringify (object, ignored, indent) {
-  throw new Error('not yet implemented')
 }
 
 // @ts-ignore urggghh ... this is so wrong!
