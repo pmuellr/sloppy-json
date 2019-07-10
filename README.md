@@ -44,7 +44,7 @@ Strings are supported in a couple of fashions:
 - unquoted strings, which are valid JavaScript identifiers, matching the
   following:
 
-      /[A-Za-z_\$][A-Za-z0-9_\$]*/
+      /^[A-Za-z_$][A-Za-z0-9_$]*$/
 
   are treated as their string value; eg
 
