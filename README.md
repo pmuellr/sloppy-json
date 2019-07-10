@@ -108,7 +108,97 @@ install
     npm install pmuellr/sloppy-json
 
 
-usage
+example
+--------------------------------------------------------------------------------
+
+```console
+$ sloppy-json -E < package.json
+{
+    name: "sloppy-json"
+    version: "1.0.0"
+    private: true
+    description: "deals with sloppy json"
+    license: MIT
+    author: "Patrick Mueller <pmuellr@apache.org> (https://github.com/pmuellr)"
+    homepage: "https://github.com/pmuellr/sloppy-json"
+    main: "sloppy-json.js"
+    bin: {
+        "sloppy-json": "./lib/cli.js"
+    }
+    scripts: {
+        build: "echo npm run build: TBD"
+        "deps-check": "node tools/deps-check.js"
+        "ts-check": "echo 'running ts-check'; tsc --allowJs --checkJs --noEmit --target ES5 --resolveJsonModule *.js"
+        "ts-check-skip": "echo 'skipping ts-check for the moment'"
+        ncu: "ncu -u --packageFile package.json"
+        serve: serve
+        standard: "echo 'running standard'; standard --verbose"
+        test: "npm run -s deps-check && npm run -s standard && npm run -s ts-check && npm run -s test:unit"
+        "test:unit": "echo 'running unit tests'; jest --colors"
+        watch: "nodemon --exec 'npm run -s test; node tools/log-time finished'"
+    }
+    repository: {
+        type: git
+        url: "https://github.com/pmuellr/sloppy-json.git"
+    }
+    bugs: {
+        url: "https://github.com/pmuellr/sloppy-json/issues"
+    }
+    standard: {
+        ignore: [
+            "tmp/**/*"
+            "docs/**/*"
+        ]
+    }
+    jest: {
+        testEnvironment: node
+        verbose: true
+    }
+    nodemonConfig: {
+        ext: "js,ts,json"
+    }
+    dependencies: {}
+    devDependencies: {
+        "@types/jest": "^24.0.15"
+        "@types/node": "^12.0.10"
+        "dependency-check": "^3.3.0"
+        jest: "^24.8.0"
+        nodemon: "^1.19.1"
+        "random-seed": "^0.3.0"
+        serve: "^11.0.2"
+        standard: "^12.0.1"
+        typescript: "^3.5.2"
+        uuid: "^3.3.2"
+    }
+}
+```
+
+
+cli usage
+--------------------------------------------------------------------------------
+
+```console
+$ sloppy-json
+sloppy-json 1.0.0
+
+usage:
+  sloppy-json -d <value>  - decode the value
+  sloppy-json -D <value>  - decode the value indented
+  sloppy-json -e <value>  - encode the value
+  sloppy-json -E <value>  - encode the value indented
+  sloppy-json -h          - print this help
+  sloppy-json -v          - print the version
+
+<value> should be a string to be encoded or decoded.  If it is not
+provided the value will be read from stdin.
+
+Decoding will return a JSON respresentation of the sloppy JSON
+passed as a parameter.
+Encoding will return a sloopy JSON respresentation of the sloppy json
+passed as a parameter.
+```
+
+api usage
 --------------------------------------------------------------------------------
 
     const SloppyJSON = require('sloppy-json')
